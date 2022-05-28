@@ -25,5 +25,16 @@ provider "aws" {
 
 locals {
   website = "vilarinho.click" 
-  s3_path_to_gitea = "gitea/"
+  compose_path = "assets/docker-compose.yml"
+  app_ini_path = "assets/app.ini"
+}
+
+resource "tls_private_key" "gitea_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "gitea" {
+  key_name   = "gitea-instance-key"
+  public_key = tls_private_key.gitea_key.public_key_openssh
 }

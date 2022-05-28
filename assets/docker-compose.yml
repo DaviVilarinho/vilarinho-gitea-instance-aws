@@ -20,6 +20,5 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "3000:3000"
-      - "3000:443"
-      - "3000:80"
+      - "80:80"
+      - "2222:2222"

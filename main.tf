@@ -22,3 +22,8 @@ provider "aws" {
     }
   }
 }
+
+locals {
+  website = "vilarinho.click" 
+  s3_path_to_gitea = "gitea/"
+}

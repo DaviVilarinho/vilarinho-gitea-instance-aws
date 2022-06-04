@@ -5,6 +5,30 @@ networks:
     external: false
 
 services:
+  letsencrypt:
+    image: linuxserver/letsencrypt
+    container_name: letsencrypt
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+      - URL=vilarinho.click
+      - SUBDOMAINS=git,
+      - VALIDATION=http
+      - EMAIL=davi.r.vilarinho@gmail.com
+      - ONLY_SUBDOMAINS=true
+      - STAGING=false
+    volumes:
+      - ./gitea/ssl:/config
+    networks:
+      - gitea
+    ports:
+      - 3000:3000
+      - 443:443
+      - 80:80
+    restart: unless-stopped
   server:
     image: gitea/gitea:1.16.8
     container_name: gitea
@@ -20,5 +44,5 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "80:80"
       - "2222:2222"
+      - "3000:3000"
